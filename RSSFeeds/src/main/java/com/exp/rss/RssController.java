@@ -28,20 +28,21 @@ public class RssController {
 	private URL url[] = new URL[4];
 	private SyndFeed syndFeeds[]; // = new SyndFeed[4];
 	private ModelAndView mav = new ModelAndView();
-
 	private FeedFetcherCache cache = HashMapFeedInfoCache.getInstance();
-	private HttpURLFeedFetcher feedFetcher = new HttpURLFeedFetcher(cache);
-	private List<ContentModel> items = new ArrayList<ContentModel>();
+	private HttpURLFeedFetcher feedFetcher = new HttpURLFeedFetcher(cache); // HTTP feed with caching
+	
 
 	@RequestMapping(value = "/rss", method = RequestMethod.GET)
 	public ModelAndView getFeedInRss() throws IllegalArgumentException,
 			FeedException, IOException, FetcherException {
 
-	
-	//	if (null == syndFeeds) {
+		
 			syndFeeds = new SyndFeed[4];
 
 			try {
+				
+				List<ContentModel> items = new ArrayList<ContentModel>();
+				
 				url[0] = new URL("http://rss.kauppalehti.fi/rss/omaraha.jsp");
 				url[1] = new URL(
 						"http://rss.kauppalehti.fi/rss/yritysuutiset.jsp");
@@ -49,7 +50,7 @@ public class RssController {
 				url[3] = new URL("http://rss.kauppalehti.fi/rss/luetuimmat.jsp");
 
 				for (int j = 0; j < syndFeeds.length; j++) {
-					syndFeeds[j] = feedFetcher.retrieveFeed(url[j]);
+					syndFeeds[j] = feedFetcher.retrieveFeed(url[j]); // get feed from cache/HTTP
 
 					// SyndFeed feed = feedFetcher.retrieveFeed(url[j]);
 					// if (null == feed || feed.getEntries().size() <= 0) {
@@ -87,7 +88,7 @@ public class RssController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//}
+	
 
 		return mav;
 
