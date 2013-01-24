@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.cache.ehcache.EhCacheFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +37,8 @@ public class RssController {
 	public ModelAndView getFeedInRss() throws IllegalArgumentException,
 			FeedException, IOException, FetcherException {
 
-		if (null == syndFeeds) {
+	
+	//	if (null == syndFeeds) {
 			syndFeeds = new SyndFeed[4];
 
 			try {
@@ -47,7 +49,7 @@ public class RssController {
 				url[3] = new URL("http://rss.kauppalehti.fi/rss/luetuimmat.jsp");
 
 				for (int j = 0; j < syndFeeds.length; j++) {
-					syndFeeds[j] = feedFetcher.retrieveFeed(url[3]);
+					syndFeeds[j] = feedFetcher.retrieveFeed(url[j]);
 
 					// SyndFeed feed = feedFetcher.retrieveFeed(url[j]);
 					// if (null == feed || feed.getEntries().size() <= 0) {
@@ -85,7 +87,7 @@ public class RssController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		//}
 
 		return mav;
 
